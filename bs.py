@@ -62,23 +62,19 @@ class Panel(FloatLayout):
         self.reaction_vars = []
         self.BEAM = Beam(self.Len, self.E, self.I)
         
-        self.add_widget(Label(text = 'BEAM SOLVER', size_hint = (1, 0.1), pos_hint = {'x' : 0, 'y' : 0.9}, color = (0, 0, 0, 1)))
-        self.add_widget(Label(text = 'MAKE BEAM', size_hint = (.3, 0.1), pos_hint = {'x' : 0, 'y' : 0.8}, color = (0, 255, 0, 1)))
+        self.i = 0
+        
+        self.add_widget(Label(text = 'MAKE BEAM', size_hint = (.25, 0.1), pos_hint = {'x' : 0, 'y' : 0.9}))
         
         layout = GridLayout(cols=1, spacing=10, size_hint_y=None, size_hint_x = 1)
         
-        layout.bind(minimum_height=layout.setter('height'))
+        layout.bind(minimum_height = layout.setter('height'))
         
-        #Button which upon clicking show default values of E, I and length and allows user to change them
         default_val = Button(text = 'SET E, I, L', size_hint_y=None, height=40)
         layout.add_widget(default_val)
         default_val.bind(on_press = self.popup_default_value)
         
-        """Len = Button(text = 'LENGTH', size_hint_y=None, height=40)
-        layout.add_widget(Len)
-        Len.bind(on_press = self.popup_len)
-        """
-        layout.add_widget(Label(text = 'SUPPORTS', size_hint_y=None, height=40, color = (0, 255, 0, 1)))
+        layout.add_widget(Label(text = 'SUPPORTS', size_hint_y=None, height=40))
         
         Fix = Button(text = 'FIX', size_hint_y=None, height=40)
         layout.add_widget(Fix)
@@ -92,9 +88,9 @@ class Panel(FloatLayout):
         layout.add_widget(Pin)
         Pin.bind(on_press = self.popup_pin)
         
-        layout.add_widget(Label(text = 'LOADS', size_hint_y=None, height=40, color = (0, 255, 0, 1)))
+        layout.add_widget(Label(text = 'LOADS', size_hint_y=None, height=40))
         
-        layout.add_widget(Label(text = 'CONCENTRATED', size_hint_y=None, height=40,color = (0, 255, 0, 1)))
+        layout.add_widget(Label(text = 'CONCENTRATED', size_hint_y=None, height=40))
         
         Vertical = Button(text = 'VERTICAL', size_hint_y=None, height=40)
         layout.add_widget(Vertical)
@@ -104,7 +100,7 @@ class Panel(FloatLayout):
         layout.add_widget(Moment)
         Moment.bind(on_press = self.popup_moment)
         
-        layout.add_widget(Label(text = 'DISTRIBUTED', size_hint_y=None, height=40, color = (0, 255, 0, 1)))
+        layout.add_widget(Label(text = 'DISTRIBUTED', size_hint_y=None, height=40))
         
         Linear = Button(text = 'LINEAR', size_hint_y=None, height=40)
         layout.add_widget(Linear)
@@ -114,52 +110,38 @@ class Panel(FloatLayout):
         layout.add_widget(NewBeam)
         NewBeam.bind(on_press = self.popup_newbeam)
         
-        MakeBeam = ScrollView(size_hint=(.3, .8))
+        MakeBeam = ScrollView(size_hint=(.25, .9))
         MakeBeam.add_widget(layout)
         self.add_widget(MakeBeam)
         
-        layoutSol1 = GridLayout(cols=1, spacing=10, size_hint_y=None, size_hint_x = 1)
-        self.add_widget(Label(text = 'PLOT GRAPH', size_hint = (.35, .1), pos_hint = {'x' : 0.3, 'y' : .8}, color = (0, 255, 0, 1)))
-        self.add_widget(Label(text = 'FIND VALUES', size_hint = (.35, .1), pos_hint = {'x' : .65, 'y' : .8}, color = (0, 255, 0, 1)))
-        layoutSol1.bind(minimum_height=layoutSol1.setter('height'))
+        self.add_widget(Label(text = 'ANALYSE BEAM', size_hint = (.75, .1), pos_hint = {'x' : .25, 'y' : .9}))
+        layout_analysis = GridLayout(cols=2, spacing=10, size_hint = (.75, .3), pos_hint = {'x' : .25, 'y' : .6})
         
         Shear = Button(text = 'SHEAR FORCE DIAGRAM', size_hint_y=None, height=20)
-        layoutSol1.add_widget(Shear)
+        layout_analysis.add_widget(Shear)
         Shear.bind(on_press = self.popup_shear)
         
         Bending = Button(text = 'BENDING MOMENT DIAGRAM', size_hint_y=None, height=20)
-        layoutSol1.add_widget(Bending)
+        layout_analysis.add_widget(Bending)
         Bending.bind(on_press = self.popup_bending)
         
         Slope = Button(text = 'SLOPE DIAGRAM', size_hint_y=None, height=20)
-        layoutSol1.add_widget(Slope)
+        layout_analysis.add_widget(Slope)
         Slope.bind(on_press = self.popup_slope)
         
         Deflection = Button(text = 'DEFLECTION DIAGRAM', size_hint_y=None, height=20)
-        layoutSol1.add_widget(Deflection)
+        layout_analysis.add_widget(Deflection)
         Deflection.bind(on_press = self.popup_deflection)
         
-        PlotAll = Button(text = 'PLOT ALL OF THE ABOVE', size_hint_y=None, height=20)
-        layoutSol1.add_widget(PlotAll)
+        PlotAll = Button(text = 'PLOT ALL 4', size_hint_y=None, height=20)
+        layout_analysis.add_widget(PlotAll)
         PlotAll.bind(on_press = self.popup_plotall)
         
-        Plot = ScrollView(size_hint=(.35, .2), pos_hint = {'x' : .3, 'y' : .6})
-        Plot.add_widget(layoutSol1)
-        self.add_widget(Plot)
-        
-        layoutSol2 = GridLayout(cols=1, spacing=10, size_hint_y=None, size_hint_x = 1)
-        layoutSol2.bind(minimum_height=layoutSol1.setter('height'))
         Reaction = Button(text = 'REACTION LOADS', size_hint_y=None, height=15)
-        layoutSol2.add_widget(Reaction )
+        layout_analysis.add_widget(Reaction)
         Reaction.bind(on_press = self.popup_reaction)
         
-        #Cflexure = Button(text = 'CFLEXURE', size_hint_y=None, height=15)
-        #layoutSol2.add_widget(Cflexure)
-        #Cflexure.bind(on_press = self.popup_cflexure)
-        
-        Fvalue = ScrollView(size_hint = (.35, .2), pos_hint = {'x' : .65, 'y' : .6})
-        Fvalue.add_widget(layoutSol2)
-        self.add_widget(Fvalue)
+        self.add_widget(layout_analysis)
         
     def popup_default_value(self, instance):
         #layout = BoxLayout(orientation = 'vertical')
@@ -204,31 +186,6 @@ class Panel(FloatLayout):
         self.popup = Popup(title = 'SET E, I  AND LENGTH FOR BEAM', content = layout1, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
         self.popup.open()
         
-        
-    """def popup_len(self, instance):
-         #Popup has layout which is a Box Layout as the main layout
-         layout = BoxLayout(orientation = 'vertical')
-         
-         #layout's child widget -- a TextInput widget
-         self.len_text = TextInput(multiline = False)
-         layout.add_widget(self.len_text)
-         
-         #layout's  another child widget -- a Button to save the lenth and Button binding with a function self.len_of_beam 
-         self.btn = Button(text = 'SAVE')
-         self.btn.bind(on_press = self.len_of_beam)
-         layout.add_widget(self.btn)
-         
-         #layout's  another child widget -- a Button to dismiss the Popup and Button binding with a function self.len_of_beam 
-         self.btn2 = Button(text = 'SAVE')
-         self.btn2.bind(on_press = self.popup_dismiss)
-         layout.add_widget(self.btn2)
-         
-         #Instantiating the Popup 
-         self.popup = Popup(title = 'LENTH (m)', content = layout, size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
-         
-         self.popup.open() 
-    """     
-         
       
     def popup_fix(self, instance):
         
@@ -419,16 +376,63 @@ class Panel(FloatLayout):
         pass
     
     def popup_plotall(self, instance):
+        self.BEAM.solve_for_reaction_loads(*self.reaction_vars)
+        d = self.BEAM.reaction_loads
+        for i, j in d.items():
+            print(j)
         pass
         
     
     def popup_reaction(self, instance):
-        self.BEAM.solve_for_reaction_loads(*self.reaction_vars)
-        graph = self.BEAM.plot_slope
-        
-        #print(self.BEAM.applied_loads)
-        print(self.BEAM.reaction_loads)
-        pass
+        if self.i > 0:
+            layout_react = BoxLayout(orientation = 'vertical')
+            for i, j in self.d.items():
+                alphabet, distance = str(i).split('_')
+                if alphabet == 'R':
+                    text1 = 'Reaction Force at x = {} m is {} N'.format(distance, j)
+                elif alphabet == 'M':
+                    text1 = 'Reaction Moment at x = {} m is {} N*m'.format(distance, j)
+                    
+                layout_react.add_widget(Label(text = text1))
+            btn = Button(text = 'CLOSE')
+            layout_react.add_widget(btn)
+            btn.bind(on_press = self.popup_in_popup_dismiss)
+            self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS",content = layout_react , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+            self.popup_in_popup.open()
+            
+        else:
+            self.i += 1
+            try:
+                self.BEAM.solve_for_reaction_loads(*self.reaction_vars)
+            except:
+                layout = BoxLayout(orientation = 'vertical')
+                layout.add_widget(Label(text = "INSUFFICIENT DATA GIVEN!!"))
+                btn = Button(text = 'CLOSE')
+                layout.add_widget(btn)
+                btn.bind(on_press = self.popup_in_popup_dismiss)
+                self.popup_in_popup = Popup(title = "BEAM UNSTABLE!",content = layout , size_hint = (.4, .4), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                self.popup_in_popup.open()
+            else:
+                layout_react = BoxLayout(orientation = 'vertical')
+                #self.BEAM.solve_for_reaction_loads(*self.reaction_vars)
+                self.d = self.BEAM.reaction_loads
+                #react_name = list(d.keys())
+                #react_value = list(d.values())
+                #print(self.BEAM.reaction_loads, d, react_name, react_value)
+                #more_than_once_call:
+                for i, j in self.d.items():
+                    alphabet, distance = str(i).split('_')
+                    if alphabet == 'R':
+                        text1 = 'Reaction Force at x = {} m is {} N'.format(distance, j)
+                    elif alphabet == 'M':
+                        text1 = 'Reaction Moment at x = {} m is {} N*m'.format(distance, j)
+                    
+                    layout_react.add_widget(Label(text = text1))
+                btn = Button(text = 'CLOSE')
+                layout_react.add_widget(btn)
+                btn.bind(on_press = self.popup_in_popup_dismiss)
+                self.popup_in_popup = Popup(title = "SUPPPORT REACTIONS",content = layout_react , size_hint = (.8, .8), pos_hint = {'center_x' : .5, 'center_y' : .5})
+                self.popup_in_popup.open()
     
     def popup_cflexure(self, instance):
         
@@ -440,6 +444,7 @@ class Panel(FloatLayout):
         self.I = "1.71E-6"
         self.Len = '10'
         self.reaction_vars = []
+        self.i = 0
         self.BEAM = Beam(self.Len, self.E, self.I)
         layout = BoxLayout(orientation = 'vertical')
         layout.add_widget(Label(text = "ANALYSE A NEW BEAM NOW!!!"))
@@ -639,7 +644,7 @@ class Panel(FloatLayout):
     
 class BApp(App):
     def build(self):
-        Window.clearcolor = (1,1,1,1)
+        #Window.clearcolor = (1,1,1,1)
         root = Panel()
         return root
         
